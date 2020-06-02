@@ -31,8 +31,15 @@ module.exports = {
 		{
 			resolve: 'gatsby-source-filesystem',
 			options: {
-				name: 'posts',
+				name: 'mdPosts',
 				path: `${__dirname}/content/`,
+			},
+		},
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				name: 'posts',
+				path: `${__dirname}/content/posts`,
 			},
 		},
 		{
@@ -40,6 +47,17 @@ module.exports = {
 			options: {
 				name: 'images',
 				path: `${__dirname}/static/images/`,
+			},
+		},
+		`gatsby-remark-images`,
+		{
+			resolve: `gatsby-plugin-mdx`,
+			options: {
+				gatsbyRemarkPlugins: [
+					{
+						resolve: 'gatsby-remark-images',
+					},
+				],
 			},
 		},
 		{
@@ -108,16 +126,6 @@ module.exports = {
 			},
 		},
 		'gatsby-plugin-offline',
-		{
-			resolve: 'gatsby-plugin-netlify-cms',
-			options: {
-				modulePath: path.resolve('src/netlifycms/index.js'), // default: undefined
-				enableIdentityWidget: true,
-				publicPath: 'admin',
-				htmlTitle: 'Content Manager',
-				includeRobots: false,
-			},
-		},
 		{
 			resolve: 'gatsby-plugin-feed',
 			options: {
