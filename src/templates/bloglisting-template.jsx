@@ -60,7 +60,7 @@ export default BlogListingTemplate;
 /* eslint no-undef: "off" */
 export const blogListingQuery = graphql`
 	query BlogListingQuery($skip: Int!, $limit: Int!) {
-		posts: allMarkdownRemark(
+		posts: allMdx(
 			sort: { fields: [fields___date], order: DESC }
 			limit: $limit
 			skip: $skip
@@ -78,6 +78,13 @@ export const blogListingQuery = graphql`
 						title
 						tags
 						date
+						cover {
+							childImageSharp {
+								fluid {
+									...GatsbyImageSharpFluid_withWebp
+								}
+							}
+						}
 					}
 				}
 			}

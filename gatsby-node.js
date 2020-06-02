@@ -8,7 +8,7 @@ const siteConfig = require('./data/SiteConfig');
 exports.onCreateNode = ({ node, actions, getNode }) => {
 	const { createNodeField } = actions;
 	let slug;
-	if (node.internal.type === 'MarkdownRemark') {
+	if (node.internal.type === 'Mdx') {
 		const fileNode = getNode(node.parent);
 		const parsedFilePath = path.parse(fileNode.relativePath);
 		if (
@@ -39,22 +39,10 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 	}
 };
 
-exports.createPages = async ({ graphql, actions }) => {
-	const { createPage } = actions;
-	const postPage = path.resolve('src/templates/post.jsx');
-	const tagPage = path.resolve('src/templates/tag.jsx');
-	const categoryPage = path.resolve('src/templates/category.jsx');
-	const listingPage = path.resolve('./src/templates/listing.jsx');
-	const blogListingPage = path.resolve(
-		'./src/templates/bloglisting-template.jsx'
-	);
-
-	const landingPage = path.resolve('./src/templates/landing.jsx');
-
-	// Get a full list of markdown posts
-	const markdownQueryResult = await graphql(`
+// Get a full list of markdown posts
+const query = `
 		{
-			allMarkdownRemark {
+			posts: allMdx {
 				edges {
 					node {
 						id
@@ -71,17 +59,33 @@ exports.createPages = async ({ graphql, actions }) => {
 				}
 			}
 		}
-	`);
+	`;
 
-	if (markdownQueryResult.errors) {
-		console.error(markdownQueryResult.errors);
-		throw markdownQueryResult.errors;
+exports.createPages = async ({ graphql, actions }) => {
+	const { createPage } = actions;
+	const postPage = path.resolve('src/templates/post.jsx');
+	const tagPage = path.resolve('src/templates/tag.jsx');
+	const categoryPage = path.resolve('src/templates/category.jsx');
+	const listingPage = path.resolve('./src/templates/listing.jsx');
+	const blogListingPage = path.resolve(
+		'./src/templates/bloglisting-template.jsx'
+	);
+
+	const landingPage = path.resolve('./src/templates/landing.jsx');
+
+	const response = await graphql(query);
+
+	if (response.errors) {
+		console.error(response.errors);
+		throw new Error(response.errors);
 	}
+
+	const { posts } = response.data;
 
 	const tagSet = new Set();
 	const categorySet = new Set();
 
-	const postsEdges = markdownQueryResult.data.allMarkdownRemark.edges;
+	const postsEdges = response.data.posts.edges;
 
 	// Sort posts
 	postsEdges.sort((postA, postB) => {
