@@ -114,7 +114,7 @@ exports.createPages = async ({ graphql, actions }) => {
 		postsEdges.forEach(({ node }, index, arr) => {
 			const id = node.id;
 			createPage({
-				path: index === 0 ? `/` : `/${index + 1}/`,
+				path: index === 0 ? `/blog` : `/blog/page/${index + 1}/`,
 				component: blogListingPage,
 				context: {
 					id: id,

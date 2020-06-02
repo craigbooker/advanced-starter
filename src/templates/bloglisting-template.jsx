@@ -11,8 +11,9 @@ import './listing.css';
 class BlogListingTemplate extends React.Component {
 	renderPaging() {
 		const { currentPageNum, pageCount } = this.props.pageContext;
-		const prevPage = currentPageNum - 1 === 1 ? '/' : `/${currentPageNum - 1}/`;
-		const nextPage = `/${currentPageNum + 1}/`;
+		const prevPage =
+			currentPageNum - 1 === 1 ? '/blog' : `/blog/page/${currentPageNum - 1}/`;
+		const nextPage = `/blog/page/${currentPageNum + 1}/`;
 		const isFirstPage = currentPageNum === 1;
 		const isLastPage = currentPageNum === pageCount;
 
@@ -24,7 +25,7 @@ class BlogListingTemplate extends React.Component {
 					return (
 						<Link
 							key={`listing-page-${pageNum}`}
-							to={pageNum === 1 ? '/' : `/${pageNum}/`}
+							to={pageNum === 1 ? '/blog' : `/blog/page/${pageNum}/`}
 						>
 							{pageNum}
 						</Link>
