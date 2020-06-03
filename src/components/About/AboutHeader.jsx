@@ -21,7 +21,7 @@ const AboutHeader = () => {
 	const { aboutImage } = useStaticQuery(getAboutImage);
 	return (
 		<section className={styles.about}>
-			<Title title='featured' subtitle='articles' />
+			<Title title='about' subtitle='' />
 			<div className={styles.aboutCenter}>
 				<article className={styles.aboutImg}>
 					<div className={styles.imgContainer}>
