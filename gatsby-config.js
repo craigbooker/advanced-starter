@@ -96,6 +96,7 @@ module.exports = {
 		},
 		'gatsby-plugin-sharp',
 		'gatsby-transformer-sharp',
+		'gatsby-plugin-playground',
 		'gatsby-plugin-styled-components',
 		'gatsby-plugin-transition-link',
 		'gatsby-plugin-catch-links',

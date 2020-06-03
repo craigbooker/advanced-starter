@@ -1,9 +1,9 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import config from '../../data/SiteConfig';
-import Navbar from '../components/common/Navbar';
-import Footer from '../components/common/Footer';
-import './index.css';
+import Navbar from './common/Navbar';
+import Footer from './common/Footer';
+import '../css/index.css';
 
 export default class MainLayout extends React.Component {
 	render() {

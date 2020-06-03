@@ -4,8 +4,8 @@ import Image from 'gatsby-image';
 import AniLink from 'gatsby-plugin-transition-link/AniLink';
 
 const BlogCard = ({ blog }) => {
-	const { title, date, author, slug } = blog.frontmatter;
-	//const slug = blog.fields.slug;
+	const { title, date, author } = blog.frontmatter;
+	const slug = blog.fields.slug;
 	const img = blog.frontmatter.cover.childImageSharp.fluid;
 	console.log('SLUG: ' + slug);
 

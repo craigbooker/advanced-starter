@@ -12,21 +12,22 @@ import config from '../../data/SiteConfig';
 import Layout from '../components/layout';
 import StyledHero from '../components/StyledHero';
 import Banner from '../components/Banner';
-import AboutHeader from '../components/About/AboutHeader';
+import AboutSummary from '../components/Home/AboutSummary';
+import FeaturedArticles from '../components/Home/FeaturedArticles';
 
-const AboutPage = ({ data }) => {
+const HomePage = ({ data }) => {
 	return (
-		<Layout title='About'>
+		<Layout title='Home'>
 			<StyledHero>
-				<Banner title='about' info='' />
+				<Banner title='Hello & welcome!' info='' />
 			</StyledHero>
-
-			<AboutHeader />
+			<AboutSummary />
+			<FeaturedArticles />
 		</Layout>
 	);
 };
 
-export default AboutPage;
+export default HomePage;
 
 export const query = graphql`
 	query {
