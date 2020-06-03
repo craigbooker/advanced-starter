@@ -57,7 +57,23 @@ const query = `
 						}
 					}
 				}
-			}
+      }
+      series: allMdx {
+				edges {
+					node {
+						id
+						fields {
+							slug
+						}
+						frontmatter {
+							title
+							tags
+							category
+							date
+						}
+					}
+				}
+      }
 		}
 	`;
 
@@ -70,6 +86,9 @@ exports.createPages = async ({ graphql, actions }) => {
 	const blogListingPage = path.resolve(
 		'./src/templates/bloglisting-template.jsx'
 	);
+	const seriesListingPage = path.resolve(
+		'./src/templates/serieslisting-template.jsx'
+	);
 
 	const landingPage = path.resolve('./src/templates/landing.jsx');
 
@@ -80,12 +99,13 @@ exports.createPages = async ({ graphql, actions }) => {
 		throw new Error(response.errors);
 	}
 
-	const { posts } = response.data;
+	const { posts, series } = response.data;
 
 	const tagSet = new Set();
 	const categorySet = new Set();
 
 	const postsEdges = response.data.posts.edges;
+	const seriesEdges = response.data.series.edges;
 
 	// Sort posts
 	postsEdges.sort((postA, postB) => {
@@ -105,8 +125,26 @@ exports.createPages = async ({ graphql, actions }) => {
 		return 0;
 	});
 
+	// Sort series
+	seriesEdges.sort((seriesA, seriesB) => {
+		const dateA = moment(
+			seriesA.node.frontmatter.date,
+			siteConfig.dateFromFormat
+		);
+
+		const dateB = moment(
+			seriesB.node.frontmatter.date,
+			siteConfig.dateFromFormat
+		);
+
+		if (dateA.isBefore(dateB)) return 1;
+		if (dateB.isBefore(dateA)) return -1;
+
+		return 0;
+	});
+
 	// Paging
-	const { postsPerPage } = siteConfig;
+	const { postsPerPage, seriesPerPage } = siteConfig;
 	if (postsPerPage) {
 		const pageCount = Math.ceil(postsEdges.length / postsPerPage);
 
@@ -120,6 +158,33 @@ exports.createPages = async ({ graphql, actions }) => {
 					id: id,
 					limit: postsPerPage,
 					skip: index * postsPerPage,
+					pageCount,
+					currentPageNum: index + 1,
+				},
+			});
+		});
+	} else {
+		// Load the landing page instead
+		createPage({
+			path: `/`,
+			component: landingPage,
+		});
+	}
+
+	// Series Listing
+	if (seriesPerPage) {
+		const pageCount = Math.ceil(seriesEdges.length / seriesPerPage);
+
+		//[...Array(pageCount)].forEach((_val, pageNum) => {
+		seriesEdges.forEach(({ node }, index, arr) => {
+			const id = node.id;
+			createPage({
+				path: index === 0 ? `/series` : `/series/page/${index + 1}/`,
+				component: seriesListingPage,
+				context: {
+					id: id,
+					limit: seriesPerPage,
+					skip: index * seriesPerPage,
 					pageCount,
 					currentPageNum: index + 1,
 				},
