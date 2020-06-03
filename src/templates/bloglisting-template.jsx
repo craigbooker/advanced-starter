@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
 import BlogCard from '../components/Blog/BlogCard';
+import Title from '../components/Title';
 import SEO from '../components/SEO/SEO';
 import config from '../../data/SiteConfig';
 import styles from '../css/blog.module.css';
@@ -44,6 +45,7 @@ class BlogListingTemplate extends React.Component {
 				<Helmet title={config.siteTitle} />
 				<SEO />
 				<section className={styles.blog}>
+					<Title title='Blog' subtitle='' />
 					<div className={styles.center}>
 						{data.posts.edges.map(({ node }) => {
 							return <BlogCard key={node.id} blog={node} />;
@@ -62,6 +64,7 @@ export default BlogListingTemplate;
 export const blogListingQuery = graphql`
 	query BlogListingQuery($skip: Int!, $limit: Int!) {
 		posts: allMdx(
+			filter: { fileAbsolutePath: { regex: "/posts/" } }
 			sort: { fields: [fields___date], order: DESC }
 			limit: $limit
 			skip: $skip
