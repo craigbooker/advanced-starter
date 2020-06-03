@@ -14,6 +14,7 @@ import StyledHero from '../components/StyledHero';
 import Banner from '../components/Banner';
 import AboutSummary from '../components/Home/AboutSummary';
 import FeaturedArticles from '../components/Home/FeaturedArticles';
+import FeaturedSeries from '../components/Home/FeaturedSeries';
 
 const HomePage = ({ data }) => {
 	return (
@@ -23,6 +24,7 @@ const HomePage = ({ data }) => {
 			</StyledHero>
 			<AboutSummary />
 			<FeaturedArticles />
+			<FeaturedSeries />
 		</Layout>
 	);
 };
