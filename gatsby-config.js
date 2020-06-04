@@ -5,6 +5,8 @@ const config = require('./data/SiteConfig');
 module.exports = {
 	pathPrefix: config.pathPrefix === '' ? '/' : config.pathPrefix,
 	siteMetadata: {
+		title: config.siteTitle,
+		description: config.siteDescription,
 		siteUrl: urljoin(config.siteUrl, config.pathPrefix),
 		rssMetadata: {
 			site_url: urljoin(config.siteUrl, config.pathPrefix),
@@ -176,14 +178,7 @@ module.exports = {
                     }
                     frontmatter {
                       title
-                      tages
-                      cover {
-                        childImageSharp {
-                          fluid(maxWidth: 2048, quality: 75) {
-                            ...GatsbyImageSharpFluid
-                          }
-                        }
-                      }
+                      tags
                       date
                       category
                       tags
