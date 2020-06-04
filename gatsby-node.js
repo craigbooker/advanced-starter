@@ -79,7 +79,7 @@ const query = `
 
 exports.createPages = async ({ graphql, actions }) => {
 	const { createPage } = actions;
-	const postPage = path.resolve('src/templates/post.jsx');
+	const postPage = path.resolve('src/templates/blog-template.jsx');
 	const tagPage = path.resolve('src/templates/tag.jsx');
 	const categoryPage = path.resolve('src/templates/category.jsx');
 	const listingPage = path.resolve('./src/templates/listing.jsx');
@@ -219,7 +219,7 @@ exports.createPages = async ({ graphql, actions }) => {
 		const prevEdge = postsEdges[prevID];
 
 		createPage({
-			path: `/blog/${edge.node.fields.slug}/`,
+			path: `/blog${edge.node.fields.slug}/`,
 			component: postPage,
 			context: {
 				slug: edge.node.fields.slug,

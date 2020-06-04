@@ -49,13 +49,6 @@ module.exports = {
 				path: `${__dirname}/content/series`,
 			},
 		},
-		{
-			resolve: 'gatsby-source-filesystem',
-			options: {
-				name: 'images',
-				path: `${__dirname}/static/images/`,
-			},
-		},
 		`gatsby-remark-images`,
 		{
 			resolve: `gatsby-plugin-mdx`,
@@ -135,55 +128,45 @@ module.exports = {
 		},
 		'gatsby-plugin-offline',
 		{
-			resolve: 'gatsby-plugin-feed',
+			resolve: 'gatsby-plugin-feed-mdx',
 			options: {
-				setup(ref) {
-					const ret = ref.query.site.siteMetadata.rssMetadata;
-					ret.allMarkdownRemark = ref.query.allMarkdownRemark;
-					ret.generator = 'GatsbyJS Advanced Starter';
-					return ret;
-				},
 				query: `
         {
           site {
             siteMetadata {
-              rssMetadata {
-                site_url
-                feed_url
                 title
                 description
-                image_url
-                copyright
-              }
+                siteUrl
+                site_url: siteUrl
             }
           }
         }
       `,
 				feeds: [
 					{
-						serialize(ctx) {
-							const { rssMetadata } = ctx.query.site.siteMetadata;
-							return ctx.query.allMarkdownRemark.edges.map((edge) => ({
-								categories: edge.node.frontmatter.tags,
-								date: edge.node.fields.date,
-								title: edge.node.frontmatter.title,
-								description: edge.node.excerpt,
-								url: rssMetadata.site_url + edge.node.fields.slug,
-								guid: rssMetadata.site_url + edge.node.fields.slug,
-								custom_elements: [
-									{ 'content:encoded': edge.node.html },
-									{ author: config.userEmail },
-								],
-							}));
+						serialize: ({ query: { site, allMdx } }) => {
+							return allMdx.edges.map((edge) => {
+								return Object.assign({}, edge.node.frontmatter, {
+									description: edge.node.excerpt,
+									date: edge.node.frontmatter.date,
+									url:
+										site.siteMetadata.site_url +
+										'/blog' +
+										edge.node.fields.slug,
+									guid:
+										site.siteMetadata.siteUrl + '/blog' + edge.node.fields.slug,
+									custom_elements: [{ 'content:encoded': edge.node.html }],
+								});
+							});
 						},
 						query: `
             {
-              allMarkdownRemark(
-                limit: 1000,
-                sort: { order: DESC, fields: [fields___date] },
+              allMdx(
+                sort: { order: DESC, fields: [frontmatter___date] },
               ) {
                 edges {
                   node {
+                    id
                     excerpt
                     html
                     timeToRead
@@ -193,6 +176,7 @@ module.exports = {
                     }
                     frontmatter {
                       title
+                      tages
                       cover {
                         childImageSharp {
                           fluid(maxWidth: 2048, quality: 75) {
@@ -211,6 +195,7 @@ module.exports = {
           `,
 						output: config.siteRss,
 						title: config.siteRssTitle,
+						match: '^/blog/',
 					},
 				],
 			},
