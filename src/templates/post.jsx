@@ -1,22 +1,20 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 import { graphql } from 'gatsby';
+import Helmet from 'react-helmet';
+
 import Layout from '../components/layout';
-import UserInfo from '../components/UserInfo/UserInfo';
-import Disqus from '../components/Disqus/Disqus';
-import PostTags from '../components/PostTags/PostTags';
-import SocialLinks from '../components/SocialLinks/SocialLinks';
+import styles from '../css/postTemplate.module.css';
+import Image from 'gatsby-image';
 import SEO from '../components/SEO/SEO';
-import Footer from '../components/Footer/Footer';
 import config from '../../data/SiteConfig';
-import './b16-tomorrow-dark.css';
-import './post.css';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 
 export default class PostTemplate extends React.Component {
 	render() {
 		const { data, pageContext } = this.props;
 		const { slug } = pageContext;
 		const postNode = data.blog;
+		const { body } = postNode;
 		const post = postNode.frontmatter;
 		if (!post.id) {
 			post.id = slug;
@@ -45,6 +43,9 @@ export default class PostTemplate extends React.Component {
 export const pageQuery = graphql`
 	query BlogPostBySlug($slug: String!) {
 		blog: mdx(fields: { slug: { eq: $slug } }) {
+			id
+			body
+			excerpt
 			frontmatter {
 				title
 				slug

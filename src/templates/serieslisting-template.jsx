@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
 import BlogCard from '../components/Blog/BlogCard';
+import SeriesCard from '../components/Series/SeriesCard';
 import Title from '../components/Title';
 import SEO from '../components/SEO/SEO';
 import config from '../../data/SiteConfig';
@@ -50,7 +51,7 @@ class SeriesListingTemplate extends React.Component {
 					<Title title='series' subtitle='' />
 					<div className={styles.center}>
 						{data.series.edges.map(({ node }) => {
-							return <BlogCard key={node.id} blog={node} />;
+							return <SeriesCard key={node.id} series={node} />;
 						})}
 					</div>
 					<section>{this.renderPaging()}</section>
