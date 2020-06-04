@@ -7,7 +7,7 @@ const BlogCard = ({ blog }) => {
 	const { title, date, author } = blog.frontmatter;
 	const slug = blog.fields.slug;
 	const img = blog.frontmatter.cover.childImageSharp.fluid;
-	console.log('SLUG: ' + slug);
+	console.log('BLOGCARD - SLUG: ' + slug);
 
 	return (
 		<article className={styles.blog}>

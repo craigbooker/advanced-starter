@@ -7,7 +7,7 @@ const SeriesCard = ({ series }) => {
 	const { title, date, author } = series.frontmatter;
 	const slug = series.fields.slug;
 	const img = series.frontmatter.cover.childImageSharp.fluid;
-	console.log('SLUG: ' + slug);
+	console.log('SERIESCARD - SLUG: ' + slug);
 
 	return (
 		<article className={styles.blog}>
