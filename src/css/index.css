@@ -77,3 +77,16 @@ main {
 .rich {
 	background: var(--primaryColor);
 }
+
+.content .taglist {
+	list-style: none;
+	margin: 1.5rem 1.5rem 0 0;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-justify-content: left;
+	justify-content: left;
+	-webkit-align-items: center;
+	align-items: center;
+}
