@@ -13,7 +13,7 @@ const SeriesCard = ({ series }) => {
 		<article className={styles.blog}>
 			<div className={styles.imgContainer}>
 				<Image fluid={img} className={styles.img} alt='single post' />
-				<AniLink fade className={styles.link} to={`/series/${slug}`}>
+				<AniLink fade className={styles.link} to={`/series${slug}`}>
 					read more
 				</AniLink>
 				<h6 className={styles.date}>{date}</h6>

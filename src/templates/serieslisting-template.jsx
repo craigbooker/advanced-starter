@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { graphql, Link } from 'gatsby';
+import AniLink from 'gatsby-plugin-transition-link/AniLink';
 import Layout from '../components/layout';
 import BlogCard from '../components/Blog/BlogCard';
 import SeriesCard from '../components/Series/SeriesCard';
@@ -54,6 +55,9 @@ class SeriesListingTemplate extends React.Component {
 							return <SeriesCard key={node.id} series={node} />;
 						})}
 					</div>
+					<AniLink fade to='/series' className='btn-primary'>
+						read more
+					</AniLink>
 					<section>{this.renderPaging()}</section>
 				</section>
 			</Layout>

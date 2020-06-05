@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { graphql, Link } from 'gatsby';
+import AniLink from 'gatsby-plugin-transition-link/AniLink';
 import Layout from '../components/layout';
 import BlogCard from '../components/Blog/BlogCard';
 import Title from '../components/Title';
@@ -51,6 +52,9 @@ class BlogListingTemplate extends React.Component {
 							return <BlogCard key={node.id} blog={node} />;
 						})}
 					</div>
+					<AniLink fade to='/blog' className='btn-primary'>
+						read more
+					</AniLink>
 					<section>{this.renderPaging()}</section>
 				</section>
 			</Layout>
